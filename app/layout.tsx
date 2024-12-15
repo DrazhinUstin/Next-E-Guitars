@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import 'react-medium-image-zoom/dist/styles.css';
 import { inter } from '@/app/lib/fonts';
 
 export const metadata: Metadata = {

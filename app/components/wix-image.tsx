@@ -2,10 +2,7 @@
 
 import { media } from '@wix/sdk';
 
-type Props = Omit<
-  React.ImgHTMLAttributes<HTMLImageElement>,
-  'src' | 'alt' | 'srcSet' | 'width' | 'height'
-> & {
+type Props = Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'src' | 'alt' | 'srcSet'> & {
   wixMediaIdentifier?: string;
   placeholder?: string;
   alt?: string | null;
@@ -28,5 +25,7 @@ export default function WixImage({
       ? media.getScaledToFillImageUrl(wixMediaIdentifier, targetWidth, targetHeight, {})
       : media.getImageUrl(wixMediaIdentifier).url
     : placeholder;
-  return <img src={imageUrl} alt={alt ?? ''} {...props} />;
+  return (
+    <img src={imageUrl} alt={alt ?? ''} {...props} width={targetWidth} height={targetHeight} />
+  );
 }
