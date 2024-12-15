@@ -1,17 +1,18 @@
+import { cn, findProductVariant } from '@/app/lib/utils';
 import { products } from '@wix/stores';
 
 export default function ProductOptions({
-  options,
+  product,
   selectedOptions,
   onOptionSelected,
 }: {
-  options: products.ProductOption[];
+  product: products.Product;
   selectedOptions: Record<string, string>;
   onOptionSelected: (params: Record<string, string>) => void;
 }) {
   return (
     <div className="space-y-5">
-      {options.map((option) => (
+      {product.productOptions?.map((option) => (
         <fieldset key={option.name} className="space-y-5">
           <legend className="font-semibold">{option.name}</legend>
           <div className="flex flex-wrap gap-2">
@@ -31,7 +32,13 @@ export default function ProductOptions({
                 />
                 <label
                   htmlFor={choice.description}
-                  className="inline-flex cursor-pointer items-center gap-2 rounded-sm border px-2 py-1 peer-checked:border-primary"
+                  className={cn(
+                    'inline-flex cursor-pointer items-center gap-2 rounded-sm border px-2 py-1 peer-checked:border-primary',
+                    !findProductVariant(product, {
+                      ...selectedOptions,
+                      [option.name ?? '']: choice.description ?? '',
+                    })?.stock?.inStock && 'opacity-50'
+                  )}
                 >
                   {option.optionType === products.OptionType.color && (
                     <span
