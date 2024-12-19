@@ -46,7 +46,6 @@ export default async function Page({ params }: Props) {
   return (
     <main>
       <ProductDetails product={product} />
-      <pre>{JSON.stringify(product.variants, null, 2)}</pre>
     </main>
   );
 }

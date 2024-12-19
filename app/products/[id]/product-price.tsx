@@ -8,7 +8,7 @@ export default function ProductPrice({ priceData }: { priceData: products.PriceD
   const formattedPrice = priceData.formatted?.price;
   const hasDiscount = discountedPrice !== price;
   return (
-    <p className="font-medium">
+    <p className="text-xl font-medium">
       <span className={cn(hasDiscount && 'text-destructive line-through')}>{formattedPrice}</span>
       {hasDiscount && <> {formattedDiscountedPrice}</>}
     </p>
