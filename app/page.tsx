@@ -1,5 +1,5 @@
 import { Loader2 } from 'lucide-react';
-import { client } from '@/app/lib/wix-client';
+import { getWixServerClient } from '@/app/lib/wix-client.server';
 import { Suspense } from 'react';
 import ProductCard from '@/app/components/product-card';
 import Hero from './hero';
@@ -16,13 +16,14 @@ export default function Home() {
 }
 
 async function FeaturedProducts() {
-  const { collection } = await client.collections.getCollectionBySlug('featured');
+  const serverClient = await getWixServerClient();
+  const { collection } = await serverClient.collections.getCollectionBySlug('featured');
 
   if (!collection) {
     return null;
   }
 
-  const { items } = await client.products
+  const { items } = await serverClient.products
     .queryProducts()
     .hasSome('collectionIds', [collection._id])
     .descending('lastUpdated')

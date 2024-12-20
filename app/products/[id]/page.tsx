@@ -1,4 +1,5 @@
-import { fetchProductById } from '@/app/lib/data';
+import { getWixServerClient } from '@/app/lib/wix-client.server';
+import { fetchProductById } from '@/app/lib/wix-api';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import ProductDetails from './product-details';
@@ -9,7 +10,8 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const id = (await params).id;
-  const product = await fetchProductById(id);
+  const serverClient = await getWixServerClient();
+  const product = await fetchProductById(serverClient, id);
 
   if (!product) {
     notFound();
@@ -37,7 +39,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function Page({ params }: Props) {
   const id = (await params).id;
-  const product = await fetchProductById(id);
+  const serverClient = await getWixServerClient();
+  const product = await fetchProductById(serverClient, id);
 
   if (!product) {
     notFound();
