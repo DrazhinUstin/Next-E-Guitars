@@ -34,10 +34,12 @@ export default function ProductOptions({
                   htmlFor={choice.description}
                   className={cn(
                     'inline-flex cursor-pointer items-center gap-2 rounded-sm border px-2 py-1 peer-checked:border-primary',
-                    !findProductVariant(product, {
-                      ...selectedOptions,
-                      [option.name ?? '']: choice.description ?? '',
-                    })?.stock?.inStock && 'opacity-50'
+                    product.manageVariants &&
+                      !findProductVariant(product, {
+                        ...selectedOptions,
+                        [option.name ?? '']: choice.description ?? '',
+                      })?.stock?.inStock &&
+                      'opacity-50'
                   )}
                 >
                   {option.optionType === products.OptionType.color && (

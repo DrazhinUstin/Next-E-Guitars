@@ -16,7 +16,11 @@ export function findProductVariant(
   product: products.Product,
   selectedOptions: Record<string, string>
 ) {
+  const selectedOptionsArr = Object.entries(selectedOptions);
+
+  if (!selectedOptionsArr.length) return undefined;
+
   return product.variants?.find((variant) =>
-    Object.entries(selectedOptions).every(([name, value]) => variant.choices?.[name] === value)
+    selectedOptionsArr.every(([name, value]) => variant.choices?.[name] === value)
   );
 }

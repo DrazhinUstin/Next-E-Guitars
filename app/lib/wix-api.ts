@@ -7,6 +7,6 @@ export const fetchProductById = cache(async (wixClient: WixClientType, id: strin
     return product?.visible ? product : null;
   } catch (error) {
     console.error(error);
-    throw Error('Database error: Failed to fetch a product by ID');
+    throw Error('Error: Failed to fetch a product by ID');
   }
 });

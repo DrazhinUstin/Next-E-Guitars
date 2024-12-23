@@ -8,7 +8,7 @@ import { useState } from 'react';
 import Badge from '@/app/components/badge';
 import { Label } from '@/app/components/ui/label';
 import { Input } from '@/app/components/ui/input';
-import { Button } from '@/app/components/ui/button';
+import AddToCartButton from '@/app/components/add-to-cart-button';
 import {
   Accordion,
   AccordionContent,
@@ -54,6 +54,8 @@ export default function ProductDetails({ product }: { product: products.Product 
     stock?.inventoryStatus !== products.InventoryStatus.OUT_OF_STOCK;
 
   const availableQuantity = selectedProductVariant?.stock?.quantity ?? stock?.quantity;
+
+  const isAvailableQuantityExceeded = !!availableQuantity && selectedQuantity > availableQuantity;
 
   return (
     <div className="grid gap-8 md:grid-cols-[2fr_3fr] md:items-start">
@@ -104,15 +106,19 @@ export default function ProductDetails({ product }: { product: products.Product 
               step={1}
               className="max-w-16"
             />
-            {!!availableQuantity && selectedQuantity >= availableQuantity && (
+            {isAvailableQuantityExceeded && (
               <span className="text-sm text-destructive">
                 Up to {availableQuantity} items available!
               </span>
             )}
           </div>
-          <Button className="w-full" disabled={!inStock}>
-            Add to cart
-          </Button>
+          <AddToCartButton
+            className="w-full"
+            product={product}
+            selectedOptions={selectedOptions}
+            quantity={selectedQuantity}
+            disabled={!inStock || !selectedQuantity || isAvailableQuantityExceeded}
+          />
         </div>
         {!!additionalInfoSections?.length && (
           <Accordion type="single" collapsible className="w-full">
