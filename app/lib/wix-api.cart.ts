@@ -2,6 +2,7 @@ import type { WixClientType } from '@/app/lib/wix-client.base';
 import type { products } from '@wix/stores';
 import { WIX_STORES_APP_ID } from '@/app/lib/constants';
 import { findProductVariant } from '@/app/lib/utils';
+import type { cart } from '@wix/ecom';
 
 export async function fetchCart(wixClient: WixClientType) {
   try {
@@ -26,7 +27,7 @@ export async function addToCart(
 ) {
   try {
     const productVariant = findProductVariant(product, selectedOptions);
-    const data = await wixClient.currentCart.addToCurrentCart({
+    const response = await wixClient.currentCart.addToCurrentCart({
       lineItems: [
         {
           catalogReference: {
@@ -40,9 +41,34 @@ export async function addToCart(
         },
       ],
     });
-    return data.cart;
+    return response.cart;
   } catch (error) {
     console.error(error);
     throw Error('Error: Failed to add a product to the cart');
+  }
+}
+
+export async function updateCartItemQuantity(
+  wixClient: WixClientType,
+  quantityUpdate: cart.LineItemQuantityUpdate
+) {
+  try {
+    const response = await wixClient.currentCart.updateCurrentCartLineItemQuantity([
+      quantityUpdate,
+    ]);
+    return response.cart;
+  } catch (error) {
+    console.error(error);
+    throw Error('Error: Failed to update cart item quantity');
+  }
+}
+
+export async function removeCartItem(wixClient: WixClientType, id: string) {
+  try {
+    const response = await wixClient.currentCart.removeLineItemsFromCurrentCart([id]);
+    return response.cart;
+  } catch (error) {
+    console.error(error);
+    throw Error('Error: Failed to remove cart item');
   }
 }
