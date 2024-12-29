@@ -16,6 +16,7 @@ import {
   AccordionTrigger,
 } from '@/app/components/ui/accordion';
 import { findProductVariant } from '@/app/lib/utils';
+import BackInStockNotificationButton from '@/app/components/back-in-stock-notification-button';
 
 export default function ProductDetails({ product }: { product: products.Product }) {
   const {
@@ -112,13 +113,22 @@ export default function ProductDetails({ product }: { product: products.Product 
               </span>
             )}
           </div>
-          <AddToCartButton
-            className="w-full"
-            product={product}
-            selectedOptions={selectedOptions}
-            quantity={selectedQuantity}
-            disabled={!inStock || !selectedQuantity || isAvailableQuantityExceeded}
-          />
+          {inStock ? (
+            <AddToCartButton
+              className="w-full"
+              product={product}
+              selectedOptions={selectedOptions}
+              quantity={selectedQuantity}
+              disabled={!selectedQuantity || isAvailableQuantityExceeded}
+            />
+          ) : (
+            <BackInStockNotificationButton
+              variant="secondary"
+              className="w-full"
+              product={product}
+              selectedOptions={selectedOptions}
+            />
+          )}
         </div>
         {!!additionalInfoSections?.length && (
           <Accordion type="single" collapsible className="w-full">
