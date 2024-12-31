@@ -5,6 +5,7 @@ import { inter } from '@/app/lib/fonts';
 import Navbar from './navbar';
 import ReactQueryProvider from './react-query-provider';
 import { Toaster } from '@/app/components/ui/toaster';
+import { ThemeProvider } from '@/app/theme-provider';
 
 export const metadata: Metadata = {
   title: 'Next-E-Guitars',
@@ -20,10 +21,12 @@ export default function RootLayout({
     <html lang="en" className={inter.className}>
       <body>
         <ReactQueryProvider>
-          <Navbar />
-          <div className="mx-auto w-[90vw] max-w-7xl py-8">{children}</div>
+          <ThemeProvider>
+            <Navbar />
+            <div className="mx-auto w-[90vw] max-w-7xl py-8">{children}</div>
+            <Toaster />
+          </ThemeProvider>
         </ReactQueryProvider>
-        <Toaster />
       </body>
     </html>
   );

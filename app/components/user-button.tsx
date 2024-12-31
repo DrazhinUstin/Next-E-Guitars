@@ -2,7 +2,17 @@
 
 import type { members } from '@wix/members';
 import { Button, type ButtonProps } from '@/app/components/ui/button';
-import { LogInIcon, LogOutIcon, UserIcon, UserPenIcon } from 'lucide-react';
+import {
+  CheckIcon,
+  LogInIcon,
+  LogOutIcon,
+  MonitorIcon,
+  MoonIcon,
+  PaletteIcon,
+  SunIcon,
+  UserIcon,
+  UserPenIcon,
+} from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,10 +20,15 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuPortal,
+  DropdownMenuSubContent,
 } from '@/app/components/ui/dropdown-menu';
 import { useAuth } from '@/app/hooks/use-auth';
 import Link from 'next/link';
 import { cn } from '@/app/lib/utils';
+import { useTheme } from 'next-themes';
 
 interface Props extends ButtonProps {
   user: members.Member | null;
@@ -21,6 +36,7 @@ interface Props extends ButtonProps {
 
 export default function UserButton({ user, ...props }: Props) {
   const { login, logout } = useAuth();
+  const { themes, theme: currentTheme, setTheme } = useTheme();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -61,6 +77,25 @@ export default function UserButton({ user, ...props }: Props) {
             </DropdownMenuItem>
           </>
         )}
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger>
+            <PaletteIcon />
+            <span>Theme</span>
+          </DropdownMenuSubTrigger>
+          <DropdownMenuPortal>
+            <DropdownMenuSubContent>
+              {themes.map((theme) => (
+                <DropdownMenuItem key={theme} onClick={() => setTheme(theme)}>
+                  {theme === 'system' && <MonitorIcon />}
+                  {theme === 'light' && <SunIcon />}
+                  {theme === 'dark' && <MoonIcon />}
+                  <span>{theme}</span>
+                  {theme === currentTheme && <CheckIcon />}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuSubContent>
+          </DropdownMenuPortal>
+        </DropdownMenuSub>
       </DropdownMenuContent>
     </DropdownMenu>
   );
