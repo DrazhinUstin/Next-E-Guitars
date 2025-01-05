@@ -30,9 +30,9 @@ export default function MainNavigationMenu({
           <NavigationMenuTrigger>Collections</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="w-max p-2">
-              {collections.map(({ _id, name }) => (
+              {collections.map(({ _id, slug, name }) => (
                 <li key={_id}>
-                  <Link href={`/collections/${_id}`} legacyBehavior passHref>
+                  <Link href={`/collections/${slug}`} legacyBehavior passHref>
                     <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), 'w-full')}>
                       {name}
                     </NavigationMenuLink>
