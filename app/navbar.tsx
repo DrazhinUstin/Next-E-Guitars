@@ -4,8 +4,9 @@ import { fetchCart } from '@/app/lib/wix-api.cart';
 import { getWixServerClient } from '@/app/lib/wix-client.server';
 import { fetchLoggedInMember } from '@/app/lib/wix-api.members';
 import UserButton from '@/app/components/user-button';
-import { fetchCollections } from './lib/wix-api.collections';
+import { fetchCollections } from '@/app/lib/wix-api.collections';
 import MainNavigationMenu from '@/app/components/main-navigation-menu';
+import SearchButton from '@/app/components/search-button';
 
 export default async function Navbar() {
   const wixServerClient = await getWixServerClient();
@@ -22,6 +23,7 @@ export default async function Navbar() {
         </Link>
         <MainNavigationMenu collections={collections} />
         <div className="flex items-center gap-2">
+          <SearchButton />
           <UserButton user={member} />
           <CartButton initialData={cart} />
         </div>
