@@ -11,12 +11,21 @@ export const fetchProductById = cache(async (wixClient: WixClientType, id: strin
   }
 });
 
+export const sortValues = {
+  lastUpdated_desc: 'Last updated (descending)',
+  lastUpdated_asc: 'Last updated (ascending)',
+  name_desc: 'Name (descending)',
+  name_asc: 'Name (ascending)',
+  price_desc: 'Price (descending)',
+  price_asc: 'Price (ascending)',
+} as const;
+
 export interface FetchProductsOptions {
   filters?: {
     name?: string;
     collectionIds?: string[] | string;
   };
-  sort?: 'lastUpdated_asc' | 'lastUpdated_desc' | 'price_asc' | 'price_desc';
+  sort?: keyof typeof sortValues;
   page?: number;
   limit?: number;
 }
@@ -46,11 +55,17 @@ export async function fetchProducts(
       case 'lastUpdated_desc':
         query = query.descending('lastUpdated');
         break;
+      case 'name_asc':
+        query = query.ascending('name');
+        break;
+      case 'name_desc':
+        query = query.descending('name');
+        break;
       case 'price_asc':
-        query = query.ascending('priceData.price');
+        query = query.ascending('price');
         break;
       case 'price_desc':
-        query = query.descending('priceData.price');
+        query = query.descending('price');
         break;
     }
 
