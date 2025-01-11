@@ -27,7 +27,7 @@ export default function Sort({
   const handleValueChange = (value: string) => {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set('sort', value);
-    router.replace(`${pathname}?${newSearchParams.toString()}`);
+    router.push(`${pathname}?${newSearchParams.toString()}`);
   };
 
   return (

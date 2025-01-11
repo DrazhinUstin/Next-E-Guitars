@@ -24,6 +24,8 @@ export interface FetchProductsOptions {
   filters?: {
     name?: string;
     collectionIds?: string[] | string;
+    minPrice?: number;
+    maxPrice?: number;
   };
   sort?: keyof typeof sortValues;
   page?: number;
@@ -37,15 +39,21 @@ export async function fetchProducts(
   try {
     let query = wixClient.products.queryProducts();
 
-    const { name, collectionIds } = filters;
+    const { name, collectionIds, minPrice, maxPrice } = filters;
     if (name) {
       query = query.startsWith('name', name);
     }
     if (collectionIds) {
-      query = query.hasAll(
+      query = query.hasSome(
         'collectionIds',
         Array.isArray(collectionIds) ? collectionIds : [collectionIds]
       );
+    }
+    if (minPrice) {
+      query = query.ge('priceData.price', minPrice);
+    }
+    if (maxPrice) {
+      query = query.le('priceData.price', maxPrice);
     }
 
     switch (sort) {
