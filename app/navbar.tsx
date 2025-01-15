@@ -7,6 +7,7 @@ import UserButton from '@/app/components/user-button';
 import { fetchCollections } from '@/app/lib/wix-api.collections';
 import MainNavigationMenu from '@/app/components/main-navigation-menu';
 import SearchButton from '@/app/components/search-button';
+import MobileMenuButton from '@/app/components/mobile-menu-button';
 
 export default async function Navbar() {
   const wixServerClient = await getWixServerClient();
@@ -16,12 +17,13 @@ export default async function Navbar() {
     fetchCollections(wixServerClient),
   ]);
   return (
-    <header className="py-4 shadow-lg">
+    <header className="relative z-50 py-4 shadow-lg">
       <div className="mx-auto flex w-[90vw] max-w-7xl items-center justify-between gap-2">
+        <MobileMenuButton collections={collections} />
         <Link href="/">
           <h2 className="text-2xl font-semibold">E-guitars</h2>
         </Link>
-        <MainNavigationMenu collections={collections} />
+        <MainNavigationMenu collections={collections} className="hidden md:block" />
         <div className="flex items-center gap-2">
           <SearchButton />
           <UserButton user={member} />

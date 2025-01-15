@@ -15,11 +15,13 @@ import { cn } from '@/app/lib/utils';
 
 export default function MainNavigationMenu({
   collections,
+  className,
 }: {
   collections: collections.Collection[];
+  className?: string;
 }) {
   return (
-    <NavigationMenu>
+    <NavigationMenu className={className}>
       <NavigationMenuList>
         <NavigationMenuItem>
           <Link href="/products" legacyBehavior passHref>
