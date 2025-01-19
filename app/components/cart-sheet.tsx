@@ -2,7 +2,6 @@
 
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
@@ -18,6 +17,7 @@ import {
 import WixImage from '@/app/components/wix-image';
 import { MinusIcon, PlusIcon, XIcon } from 'lucide-react';
 import Link from 'next/link';
+import CheckoutButton from '@/app/components/checkout-button';
 
 export default function CartSheet({
   initialCartData,
@@ -59,9 +59,7 @@ export default function CartSheet({
             {/* @ts-expect-error subtotal currently is not included in WIX SDK  */}
             <p className="font-medium">{data?.subtotal?.formattedConvertedAmount}</p>
           </div>
-          <SheetClose asChild>
-            <Button disabled={isFetching || !data?.lineItems?.length}>Checkout</Button>
-          </SheetClose>
+          <CheckoutButton disabled={isFetching || !data?.lineItems?.length} />
         </div>
       </SheetContent>
     </Sheet>

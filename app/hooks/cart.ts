@@ -8,6 +8,7 @@ import {
 import type { cart } from '@wix/ecom';
 import {
   addToCart,
+  deleteCart,
   fetchCart,
   removeCartItem,
   updateCartItemQuantity,
@@ -127,6 +128,27 @@ export const useRemoveCartItemMutation = () => {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey });
+    },
+  });
+};
+
+export const useDeleteCartMutation = () => {
+  const queryClient = useQueryClient();
+
+  const { toast } = useToast();
+
+  return useMutation({
+    mutationFn: () => deleteCart(getWixBrowserClient()),
+    onSuccess: async () => {
+      await queryClient.cancelQueries({ queryKey });
+      queryClient.setQueryData<cart.Cart | null>(queryKey, null);
+    },
+    onError: () => {
+      toast({
+        variant: 'destructive',
+        title: 'Error!',
+        description: 'Failed to delete a cart. Please try again.',
+      });
     },
   });
 };
