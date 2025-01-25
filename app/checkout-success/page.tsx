@@ -24,7 +24,7 @@ export default async function Page({
     fetchLoggedInMember(wixClient),
   ]);
   return (
-    <main className="py-8">
+    <main className="space-y-8">
       <h2 className="text-center text-2xl font-semibold">Thank you for your order!</h2>
       <p className="text-center">A summary of your order was sent to your email address.</p>
       <div className="flex justify-center">
@@ -38,7 +38,9 @@ export default async function Page({
         </p>
       )}
       {!!order._createdDate &&
-        order._createdDate.getTime() > new Date().getTime() - 10 * 60 * 1000 && <DeleteCart />}
+        new Date(order._createdDate).getTime() > new Date().getTime() - 10 * 60 * 1000 && (
+          <DeleteCart />
+        )}
     </main>
   );
 }

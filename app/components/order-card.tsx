@@ -34,11 +34,13 @@ export default function OrderCard({ order }: { order: orders.Order }) {
   } = order;
   const address = shippingInfo?.logistics?.shippingDestination?.address;
   return (
-    <article className="max-w-2xl space-y-4 rounded-lg border bg-card p-4 text-card-foreground shadow-md">
+    <article className="w-full max-w-2xl space-y-4 rounded-lg border bg-card p-4 text-card-foreground shadow-md">
       <header className="flex flex-wrap items-center justify-between gap-2">
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <h4 className="font-medium">Order #{number}</h4>
-          {!!_createdDate && <p className="text-muted-foreground">{formatDate(_createdDate)}</p>}
+          {!!_createdDate && (
+            <p className="text-sm text-muted-foreground">{formatDate(_createdDate)}</p>
+          )}
         </div>
         {fulfillmentStatus && (
           <Badge
@@ -50,25 +52,29 @@ export default function OrderCard({ order }: { order: orders.Order }) {
           </Badge>
         )}
       </header>
-      <div className="flex flex-wrap items-center gap-2">
+      <hr />
+      <div className="space-y-2 text-sm">
+        <div className="flex flex-wrap items-center gap-2 text-base">
+          <h4 className="font-medium">Total: {priceSummary?.total?.formattedAmount}</h4>
+          {paymentStatus && (
+            <Badge
+              className={cn(
+                paymentStatus === orders.PaymentStatus.NOT_PAID && 'bg-destructive',
+                paymentStatus === orders.PaymentStatus.PENDING && 'bg-yellow-500'
+              )}
+            >
+              {paymentStatuses[paymentStatus]}
+            </Badge>
+          )}
+        </div>
         <p>Subtotal: {priceSummary?.subtotal?.formattedAmount}</p>
-        {paymentStatus && (
-          <Badge
-            className={cn(
-              paymentStatus === orders.PaymentStatus.NOT_PAID && 'bg-destructive',
-              paymentStatus === orders.PaymentStatus.PENDING && 'bg-yellow-500'
-            )}
-          >
-            {paymentStatuses[paymentStatus]}
-          </Badge>
-        )}
+        <p>Shipping: {priceSummary?.shipping?.formattedAmount}</p>
+        <p>Tax: {priceSummary?.tax?.formattedAmount}</p>
       </div>
-      <ul className="divide-y">
+      <hr />
+      <ul className="space-y-2 text-sm">
         {lineItems?.map((lineItem) => (
-          <li
-            key={lineItem._id}
-            className="grid grid-cols-[auto_1fr] items-start gap-2 py-2 first:pt-0 last:pb-0"
-          >
+          <li key={lineItem._id} className="grid grid-cols-[auto_1fr] items-start gap-2">
             <Link href={`/products/${lineItem.catalogReference?.catalogItemId}`}>
               <WixImage
                 wixMediaIdentifier={lineItem.image}
@@ -126,13 +132,28 @@ export default function OrderCard({ order }: { order: orders.Order }) {
               <p>
                 {recipientInfo?.contactDetails?.firstName} {recipientInfo?.contactDetails?.lastName}
               </p>
+              <p>{recipientInfo?.contactDetails?.phone}</p>
               <p>
-                {address?.country} {address?.city}
+                {address?.addressLine1}
+                {', '}
+                {address?.city}
+                {', '}
+                {address?.country}
+                {', '}
+                {address?.postalCode}
               </p>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="item-2">
+          <AccordionTrigger>Shipping details:</AccordionTrigger>
+          <AccordionContent>
+            <div className="space-y-2">
               <p>
-                {address?.streetAddress?.name} {address?.streetAddress?.number}
+                {shippingInfo?.title}
+                {', '}
+                {shippingInfo?.logistics?.deliveryTime}
               </p>
-              <p>{address?.subdivision}</p>
             </div>
           </AccordionContent>
         </AccordionItem>

@@ -3,6 +3,7 @@ import type { products } from '@wix/stores';
 import { WIX_STORES_APP_ID } from '@/app/lib/constants';
 import { findProductVariant } from '@/app/lib/utils';
 import { currentCart } from '@wix/ecom';
+import { env } from '@/env';
 
 export async function fetchCart(wixClient: WixClientType) {
   try {
@@ -92,7 +93,10 @@ export async function createCheckoutUrlFromCart(wixClient: WixClientType) {
     });
     const { redirectSession } = await wixClient.redirects.createRedirectSession({
       ecomCheckout: { checkoutId },
-      callbacks: { postFlowUrl: window.location.href, thankYouPageUrl: '/thank-you' },
+      callbacks: {
+        postFlowUrl: window.location.href,
+        thankYouPageUrl: `${env.NEXT_PUBLIC_APP_BASE_URL}/checkout-success`,
+      },
     });
     return redirectSession?.fullUrl ?? null;
   } catch (error) {
