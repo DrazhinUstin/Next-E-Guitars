@@ -1,11 +1,11 @@
 'use client';
 
 import type { ButtonProps } from '@/app/components/ui/button';
-import { useCheckout } from '@/app/hooks/checkout';
+import { useCartCheckout } from '@/app/hooks/checkout';
 import LoadingButton from '@/app/components/loading-button';
 
-export default function CheckoutButton(props: ButtonProps) {
-  const { isPending, startCheckoutFlow } = useCheckout();
+export default function CartCheckoutButton(props: ButtonProps) {
+  const { isPending, startCheckoutFlow } = useCartCheckout();
   return (
     <LoadingButton {...props} loading={isPending} onClick={startCheckoutFlow}>
       Checkout

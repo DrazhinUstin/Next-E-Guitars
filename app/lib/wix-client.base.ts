@@ -1,5 +1,5 @@
 import { collections, products } from '@wix/stores';
-import { currentCart, orders, backInStockNotifications } from '@wix/ecom';
+import { currentCart, checkout, orders, backInStockNotifications } from '@wix/ecom';
 import { redirects } from '@wix/redirects';
 import { members } from '@wix/members';
 import { reviews } from '@wix/reviews';
@@ -13,6 +13,7 @@ export function getWixClient(tokens: Tokens | undefined) {
       collections,
       products,
       currentCart,
+      checkout,
       orders,
       backInStockNotifications,
       redirects,

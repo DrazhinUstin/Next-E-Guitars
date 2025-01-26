@@ -17,6 +17,7 @@ import {
 } from '@/app/components/ui/accordion';
 import { findProductVariant } from '@/app/lib/utils';
 import BackInStockNotificationButton from '@/app/components/back-in-stock-notification-button';
+import ProductCheckoutButton from '@/app/components/product-checkout-button';
 
 export default function ProductDetails({ product }: { product: products.Product }) {
   const {
@@ -114,13 +115,21 @@ export default function ProductDetails({ product }: { product: products.Product 
             )}
           </div>
           {inStock ? (
-            <AddToCartButton
-              className="w-full"
-              product={product}
-              selectedOptions={selectedOptions}
-              quantity={selectedQuantity}
-              disabled={!selectedQuantity || isAvailableQuantityExceeded}
-            />
+            <div className="flex items-center gap-2">
+              <AddToCartButton
+                className="w-full"
+                product={product}
+                selectedOptions={selectedOptions}
+                quantity={selectedQuantity}
+                disabled={!selectedQuantity || isAvailableQuantityExceeded}
+              />
+              <ProductCheckoutButton
+                product={product}
+                selectedOptions={selectedOptions}
+                quantity={selectedQuantity}
+                disabled={!selectedQuantity || isAvailableQuantityExceeded}
+              />
+            </div>
           ) : (
             <BackInStockNotificationButton
               variant="secondary"
