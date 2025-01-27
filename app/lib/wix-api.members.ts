@@ -14,3 +14,29 @@ export const fetchLoggedInMember = cache(async (wixClient: WixClientType) => {
     throw Error('Error: Failed to get a current member');
   }
 });
+
+export interface updateLoggedInMemberValues {
+  firstName: string;
+  lastName: string;
+}
+
+export async function updateLoggedInMember(
+  wixClient: WixClientType,
+  { firstName, lastName }: updateLoggedInMemberValues
+) {
+  try {
+    const loggedInMember = await fetchLoggedInMember(wixClient);
+
+    if (!loggedInMember?._id) {
+      throw Error(`Logged in member _id is ${loggedInMember?._id}`);
+    }
+
+    const response = await wixClient.members.updateMember(loggedInMember._id, {
+      contact: { firstName, lastName },
+    });
+    return response;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
