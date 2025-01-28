@@ -82,7 +82,7 @@ export default function UpdateMemberForm({ member }: { member: members.Member })
             </FormItem>
           )}
         />
-        <LoadingButton type="submit" className="w-full" disabled={mutation.isPending}>
+        <LoadingButton type="submit" className="w-full" loading={mutation.isPending}>
           Update profile
         </LoadingButton>
       </form>

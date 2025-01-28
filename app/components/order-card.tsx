@@ -34,7 +34,7 @@ export default function OrderCard({ order }: { order: orders.Order }) {
   } = order;
   const address = shippingInfo?.logistics?.shippingDestination?.address;
   return (
-    <article className="w-full max-w-2xl space-y-4 rounded-lg border bg-card p-4 text-card-foreground shadow-md">
+    <article className="mx-auto w-full max-w-2xl space-y-4 rounded-lg border bg-card p-4 text-card-foreground shadow-md">
       <header className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex flex-wrap items-center gap-2">
           <h4 className="font-medium">Order #{number}</h4>

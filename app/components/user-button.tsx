@@ -53,7 +53,13 @@ export default function UserButton({ user, ...props }: Props) {
         {!!user ? (
           <>
             <DropdownMenuLabel>
-              Logged in as <span className="text-primary">{user.loginEmail}</span>
+              Logged in as{' '}
+              <span className="text-primary">
+                {user.contact?.firstName
+                  ? user.contact.firstName +
+                    (user.contact.lastName ? ' ' + user.contact.lastName : '')
+                  : user.loginEmail}
+              </span>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <Link href="/profile">
