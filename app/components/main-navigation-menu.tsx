@@ -12,6 +12,7 @@ import {
 } from '@/app/components/ui/navigation-menu';
 import Link from 'next/link';
 import { cn } from '@/app/lib/utils';
+import WixImage from '@/app/components/wix-image';
 
 export default function MainNavigationMenu({
   collections,
@@ -31,11 +32,24 @@ export default function MainNavigationMenu({
         <NavigationMenuItem>
           <NavigationMenuTrigger>Collections</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="w-max p-2">
-              {collections.map(({ _id, slug, name }) => (
+            <ul className="grid w-max grid-cols-2 gap-2 p-2">
+              {collections.map(({ _id, slug, name, media }) => (
                 <li key={_id}>
                   <Link href={`/collections/${slug}`} legacyBehavior passHref>
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), 'w-full')}>
+                    <NavigationMenuLink
+                      className={cn(
+                        navigationMenuTriggerStyle(),
+                        'h-full w-full gap-x-2 text-base'
+                      )}
+                    >
+                      <WixImage
+                        wixMediaIdentifier={media?.mainMedia?.image?.url}
+                        targetWidth={40}
+                        targetHeight={40}
+                        scaleToFill
+                        alt={media?.mainMedia?.image?.altText}
+                        className="size-10 rounded-sm"
+                      />
                       {name}
                     </NavigationMenuLink>
                   </Link>

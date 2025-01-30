@@ -8,7 +8,10 @@ import { Toaster } from '@/app/components/ui/toaster';
 import { ThemeProvider } from '@/app/theme-provider';
 
 export const metadata: Metadata = {
-  title: 'Next-E-Guitars',
+  title: {
+    template: '%s | Next-E-Guitars',
+    default: 'Next-E-Guitars',
+  },
   description: 'Full-stack e-commerce project on Next.js',
 };
 

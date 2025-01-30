@@ -21,14 +21,16 @@ import CartCheckoutButton from '@/app/components/cart-checkout-button';
 
 export default function CartSheet({
   initialCartData,
-  onClose,
+  open,
+  onOpenChange,
 }: {
   initialCartData: cart.Cart | null;
-  onClose: (open: boolean) => void;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }) {
   const { isFetching, data } = useCartQuery(initialCartData);
   return (
-    <Sheet open onOpenChange={onClose}>
+    <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent className="grid grid-rows-[auto_1fr_auto]">
         <SheetHeader>
           <SheetTitle>Your shopping cart</SheetTitle>
@@ -39,7 +41,7 @@ export default function CartSheet({
             <CartLineItem
               key={lineItem._id}
               lineItem={lineItem}
-              onLinkClick={() => onClose(false)}
+              onLinkClick={() => onOpenChange(false)}
             />
           ))}
           {!data?.lineItems?.length && (

@@ -24,7 +24,7 @@ export default function CartButton({ initialData }: { initialData: cart.Cart | n
           {totalQuantity ?? 0}
         </span>
       </Button>
-      {isSheetOpen && <CartSheet initialCartData={initialData} onClose={setIsSheetOpen} />}
+      <CartSheet initialCartData={initialData} open={isSheetOpen} onOpenChange={setIsSheetOpen} />
     </>
   );
 }
