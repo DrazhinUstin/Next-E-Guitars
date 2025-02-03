@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import ProductDetails from './product-details';
 import { Suspense } from 'react';
 import RelatedProducts, { RelatedProductsSkeleton } from '@/app/components/related-products';
+import ProductReviews from './product-reviews';
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -51,6 +52,9 @@ export default async function Page({ params }: Props) {
   return (
     <main className="space-y-8">
       <ProductDetails product={product} />
+      <Suspense fallback={<p className="text-center">Loading reviews...</p>}>
+        <ProductReviews product={product} />
+      </Suspense>
       <Suspense fallback={<RelatedProductsSkeleton />}>
         <RelatedProducts productId={product._id} />
       </Suspense>
