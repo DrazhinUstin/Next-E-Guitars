@@ -1,7 +1,22 @@
 import { useToast } from '@/app/hooks/use-toast';
-import { useMutation } from '@tanstack/react-query';
-import { createProductReview, type CreateProductReviewValues } from '@/app/lib/wix-api.reviews';
+import { useInfiniteQuery, useMutation } from '@tanstack/react-query';
+import {
+  createProductReview,
+  type CreateProductReviewValues,
+  fetchProductReviews,
+  type FetchProductReviewsOptions,
+} from '@/app/lib/wix-api.reviews';
 import { getWixBrowserClient } from '@/app/lib/wix-client.browser';
+
+export const useProductReviewsInfiniteQuery = (productId: string) => {
+  return useInfiniteQuery({
+    queryKey: ['product-reviews', productId],
+    queryFn: ({ pageParam }) =>
+      fetchProductReviews(getWixBrowserClient(), { productId, cursor: pageParam }),
+    initialPageParam: null as FetchProductReviewsOptions['cursor'],
+    getNextPageParam: (lastPage) => lastPage.cursors.next,
+  });
+};
 
 export const useCreateProductReviewMutation = () => {
   const { toast } = useToast();
