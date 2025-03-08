@@ -1,14 +1,13 @@
-import { Loader2 } from 'lucide-react';
 import { getWixServerClient } from '@/app/lib/wix-client.server';
 import { Suspense } from 'react';
-import ProductCard from '@/app/components/product-card';
 import Hero from './hero';
+import ProductsCarousel, { ProductsCarouselSkeleton } from './components/products-carousel';
 
 export default function Home() {
   return (
     <main className="space-y-8">
       <Hero />
-      <Suspense fallback={<Loader2 className="mx-auto animate-spin" />}>
+      <Suspense fallback={<FeaturedProductsSkeleton />}>
         <FeaturedProducts />
       </Suspense>
     </main>
@@ -36,11 +35,16 @@ async function FeaturedProducts() {
   return (
     <section className="space-y-8">
       <h2 className="text-center text-2xl font-semibold">Featured products</h2>
-      <div className="grid grid-cols-[repeat(auto-fill,_minmax(280px,_1fr))] gap-8">
-        {items.map((item) => (
-          <ProductCard key={item._id} product={item} />
-        ))}
-      </div>
+      <ProductsCarousel products={items} />
+    </section>
+  );
+}
+
+function FeaturedProductsSkeleton() {
+  return (
+    <section className="space-y-8">
+      <h2 className="text-center text-2xl font-semibold">Featured products</h2>
+      <ProductsCarouselSkeleton />
     </section>
   );
 }
