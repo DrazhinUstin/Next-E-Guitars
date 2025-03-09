@@ -5,7 +5,7 @@ import { recommendations } from '@wix/ecom';
 export async function fetchRelatedProducts(
   wixClient: WixClientType,
   productId: string,
-  limit: number = 4
+  limit: number = 10
 ) {
   try {
     const { availableAlgorithms } = await wixClient.recommendations.listAvailableAlgorithms();
@@ -17,7 +17,7 @@ export async function fetchRelatedProducts(
 
     const { recommendation } = await wixClient.recommendations.getRecommendation(algorithms, {
       items: [{ appId: WIX_STORES_APP_ID, catalogItemId: productId }],
-      minimumRecommendedItems: 1,
+      minimumRecommendedItems: 3,
     });
 
     if (!recommendation?.items.length) {
