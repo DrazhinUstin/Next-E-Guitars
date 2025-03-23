@@ -3,11 +3,11 @@
 import StarsRatingInput from '@/app/components/stars-rating-input';
 import { Skeleton } from '@/app/components/ui/skeleton';
 import { cn, formatDate } from '@/app/lib/utils';
-import { reviews } from '@wix/reviews';
+import type { reviews } from '@wix/reviews';
 import { ReplyIcon, StarIcon } from 'lucide-react';
 import { useState } from 'react';
 
-export default function ProductReviewCard({ review }: { review: reviews.Review }) {
+export default function ReviewCard({ review }: { review: reviews.Review }) {
   const [isShowMoreEnabled, setIsShowMoreEnabled] = useState(false);
   const maxBodyLength = 200;
   const isBodyTooBig = (review.content?.body?.length ?? 0) > maxBodyLength;
@@ -51,7 +51,7 @@ export default function ProductReviewCard({ review }: { review: reviews.Review }
   );
 }
 
-export function ProductReviewCardSkeleton() {
+export function ReviewCardSkeleton() {
   return (
     <article className="mx-auto w-full max-w-xl space-y-4 rounded-lg border border-muted bg-card p-4">
       <Skeleton className="h-8 w-40" />

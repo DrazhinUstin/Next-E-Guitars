@@ -2,7 +2,7 @@ import type { WixClientType } from '@/app/lib/wix-client.base';
 import { fetchLoggedInMember } from '@/app/lib/wix-api.members';
 import type { reviews } from '@wix/reviews';
 
-export interface CreateProductReviewValues {
+export interface CreateReviewValues {
   productId: string;
   content: {
     title?: string;
@@ -11,9 +11,9 @@ export interface CreateProductReviewValues {
   };
 }
 
-export async function createProductReview(
+export async function createReview(
   wixClient: WixClientType,
-  { productId, content }: CreateProductReviewValues
+  { productId, content }: CreateReviewValues
 ) {
   try {
     const member = await fetchLoggedInMember(wixClient);
@@ -51,7 +51,7 @@ export const sortValues = {
   rating_asc: 'Rating (ascending)',
 } as const;
 
-export interface FetchProductReviewsOptions {
+export interface FetchReviewsOptions {
   filters?: {
     productId?: string;
   };
@@ -60,9 +60,9 @@ export interface FetchProductReviewsOptions {
   limit?: number;
 }
 
-export async function fetchProductReviews(
+export async function fetchReviews(
   wixClient: WixClientType,
-  { filters = {}, sort = 'created_desc', cursor, limit = 2 }: FetchProductReviewsOptions
+  { filters = {}, sort = 'created_desc', cursor, limit = 2 }: FetchReviewsOptions
 ) {
   try {
     let query = wixClient.reviews.queryReviews().limit(limit);
@@ -99,7 +99,7 @@ export async function fetchProductReviews(
   }
 }
 
-export async function countProductReviews(wixClient: WixClientType, productId: string) {
+export async function fetchReviewsCount(wixClient: WixClientType, productId: string) {
   try {
     const response = await wixClient.reviews.countReviews({ filter: { entityId: productId } });
     return response.count;

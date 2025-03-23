@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/app/components/ui/dialog';
-import { useCreateProductReviewMutation } from '@/app/hooks/reviews';
+import { useCreateReviewMutation } from '@/app/hooks/reviews';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -54,7 +54,7 @@ const formSchema = z.object({
   rating: z.number().int().gte(1).lte(5),
 });
 
-export default function CreateProductReviewDialog({
+export default function CreateReviewDialog({
   product,
   open,
   onOpenChange,
@@ -63,7 +63,7 @@ export default function CreateProductReviewDialog({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
-  const mutation = useCreateProductReviewMutation();
+  const mutation = useCreateReviewMutation();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

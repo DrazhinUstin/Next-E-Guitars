@@ -2,13 +2,13 @@
 
 import { Button, type ButtonProps } from '@/app/components/ui/button';
 import { useState } from 'react';
-import CreateProductReviewDialog from './create-product-review-dialog';
+import CreateReviewDialog from '@/app/components/reviews/create-review-dialog';
 import type { products } from '@wix/stores';
 import { PlusIcon } from 'lucide-react';
 import type { members } from '@wix/members';
 import { useAuth } from '@/app/hooks/use-auth';
 
-export default function CreateProductReviewButton({
+export default function CreateReviewButton({
   product,
   loggedInMember,
   ...props
@@ -32,11 +32,7 @@ export default function CreateProductReviewButton({
       <Button {...props} type="button" onClick={() => setIsDialogOpen(true)}>
         <PlusIcon /> Create review
       </Button>
-      <CreateProductReviewDialog
-        product={product}
-        open={isDialogOpen}
-        onOpenChange={setIsDialogOpen}
-      />
+      <CreateReviewDialog product={product} open={isDialogOpen} onOpenChange={setIsDialogOpen} />
     </>
   );
 }

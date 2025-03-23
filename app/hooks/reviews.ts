@@ -1,36 +1,35 @@
 import { useToast } from '@/app/hooks/use-toast';
 import { useInfiniteQuery, useMutation } from '@tanstack/react-query';
 import {
-  createProductReview,
-  type CreateProductReviewValues,
-  fetchProductReviews,
-  type FetchProductReviewsOptions,
+  createReview,
+  type CreateReviewValues,
+  fetchReviews,
+  type FetchReviewsOptions,
 } from '@/app/lib/wix-api.reviews';
 import { getWixBrowserClient } from '@/app/lib/wix-client.browser';
 
-export const useProductReviewsInfiniteQuery = ({
+export const useReviewsInfiniteQuery = ({
   filters,
   sort,
-}: Pick<FetchProductReviewsOptions, 'filters' | 'sort'>) => {
+}: Pick<FetchReviewsOptions, 'filters' | 'sort'>) => {
   return useInfiniteQuery({
-    queryKey: ['product-reviews', filters, sort],
+    queryKey: ['reviews', filters, sort],
     queryFn: ({ pageParam }) =>
-      fetchProductReviews(getWixBrowserClient(), {
+      fetchReviews(getWixBrowserClient(), {
         filters,
         sort,
         cursor: pageParam,
       }),
-    initialPageParam: null as FetchProductReviewsOptions['cursor'],
+    initialPageParam: null as FetchReviewsOptions['cursor'],
     getNextPageParam: (lastPage) => lastPage.cursors.next,
   });
 };
 
-export const useCreateProductReviewMutation = () => {
+export const useCreateReviewMutation = () => {
   const { toast } = useToast();
 
   return useMutation({
-    mutationFn: (values: CreateProductReviewValues) =>
-      createProductReview(getWixBrowserClient(), values),
+    mutationFn: (values: CreateReviewValues) => createReview(getWixBrowserClient(), values),
     onSuccess: () => {
       toast({
         title: 'Thank you for your review!',

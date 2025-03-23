@@ -1,18 +1,20 @@
 'use client';
 
 import LoadingButton from '@/app/components/loading-button';
-import { useProductReviewsInfiniteQuery } from '@/app/hooks/reviews';
+import { useReviewsInfiniteQuery } from '@/app/hooks/reviews';
 import type { products } from '@wix/stores';
-import ProductReviewCard, { ProductReviewCardSkeleton } from './product-review-card';
+import ReviewCard, { ReviewCardSkeleton } from '@/app/components/reviews/review-card';
 import { useState } from 'react';
 import { sortValues } from '@/app/lib/wix-api.reviews';
 import Sort from '@/app/components/sort';
 
-export default function ProductReviewsInfiniteList({ product }: { product: products.Product }) {
+export default function ReviewsInfiniteList({ product }: { product: products.Product }) {
   const [sort, setSort] = useState<keyof typeof sortValues>('created_desc');
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-    useProductReviewsInfiniteQuery({ filters: { productId: product._id }, sort });
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useReviewsInfiniteQuery({
+    filters: { productId: product._id },
+    sort,
+  });
 
   const reviews = data?.pages.flatMap((page) => page.items);
 
@@ -23,7 +25,7 @@ export default function ProductReviewsInfiniteList({ product }: { product: produ
         selectedValue={sort}
         callback={(val) => setSort(val as typeof sort)}
       />
-      {status === 'pending' && <ProductReviewsInfiniteListSkeleton />}
+      {status === 'pending' && <ReviewsInfiniteListSkeleton />}
       {status === 'error' && (
         <p className="text-center text-destructive">There was an error while loading reviews...</p>
       )}
@@ -32,7 +34,7 @@ export default function ProductReviewsInfiniteList({ product }: { product: produ
           No reviews were found for this product...
         </p>
       )}
-      {reviews?.map((review) => <ProductReviewCard key={review._id} review={review} />)}
+      {reviews?.map((review) => <ReviewCard key={review._id} review={review} />)}
       {hasNextPage && (
         <div className="text-center">
           <LoadingButton
@@ -48,11 +50,11 @@ export default function ProductReviewsInfiniteList({ product }: { product: produ
   );
 }
 
-export function ProductReviewsInfiniteListSkeleton({ length = 2 }: { length?: number }) {
+export function ReviewsInfiniteListSkeleton({ length = 2 }: { length?: number }) {
   return (
     <div className="space-y-8">
       {Array.from({ length }).map((_, i) => (
-        <ProductReviewCardSkeleton key={i} />
+        <ReviewCardSkeleton key={i} />
       ))}
     </div>
   );

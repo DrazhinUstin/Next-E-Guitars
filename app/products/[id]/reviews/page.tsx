@@ -6,11 +6,11 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
-import ProductReviewsInfiniteList, {
-  ProductReviewsInfiniteListSkeleton,
-} from '../product-reviews-infinite-list';
-import { countProductReviews } from '@/app/lib/wix-api.reviews';
-import CreateProductReviewButton from '../create-product-review-button';
+import ReviewsInfiniteList, {
+  ReviewsInfiniteListSkeleton,
+} from '@/app/components/reviews/reviews-infinite-list';
+import { fetchReviewsCount } from '@/app/lib/wix-api.reviews';
+import CreateReviewButton from '@/app/components/reviews/create-review-button';
 import { fetchLoggedInMember } from '@/app/lib/wix-api.members';
 
 interface Props {
@@ -51,7 +51,7 @@ export default async function Page({ params }: Props) {
   const wixClient = await getWixServerClient();
   const [product, reviewsCount, member] = await Promise.all([
     fetchProductById(wixClient, id),
-    countProductReviews(wixClient, id),
+    fetchReviewsCount(wixClient, id),
     fetchLoggedInMember(wixClient),
   ]);
 
@@ -79,11 +79,11 @@ export default async function Page({ params }: Props) {
       </div>
       <hr />
       <div>
-        <CreateProductReviewButton product={product} loggedInMember={member} />
+        <CreateReviewButton product={product} loggedInMember={member} />
       </div>
       <h2 className="text-center text-2xl font-semibold">Reviews ({reviewsCount})</h2>
-      <Suspense fallback={<ProductReviewsInfiniteListSkeleton />}>
-        <ProductReviewsInfiniteList product={product} />
+      <Suspense fallback={<ReviewsInfiniteListSkeleton />}>
+        <ReviewsInfiniteList product={product} />
       </Suspense>
     </main>
   );
