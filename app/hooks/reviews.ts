@@ -8,11 +8,18 @@ import {
 } from '@/app/lib/wix-api.reviews';
 import { getWixBrowserClient } from '@/app/lib/wix-client.browser';
 
-export const useProductReviewsInfiniteQuery = (productId: string) => {
+export const useProductReviewsInfiniteQuery = ({
+  filters,
+  sort,
+}: Pick<FetchProductReviewsOptions, 'filters' | 'sort'>) => {
   return useInfiniteQuery({
-    queryKey: ['product-reviews', productId],
+    queryKey: ['product-reviews', filters, sort],
     queryFn: ({ pageParam }) =>
-      fetchProductReviews(getWixBrowserClient(), { productId, cursor: pageParam }),
+      fetchProductReviews(getWixBrowserClient(), {
+        filters,
+        sort,
+        cursor: pageParam,
+      }),
     initialPageParam: null as FetchProductReviewsOptions['cursor'],
     getNextPageParam: (lastPage) => lastPage.cursors.next,
   });
@@ -30,7 +37,16 @@ export const useCreateProductReviewMutation = () => {
         description: 'Your review will be visible after our team approves it.',
       });
     },
-    onError: () => {
+    onError: (error) => {
+      if ((error as any)?.details?.applicationError?.code === 'ReviewExists') {
+        toast({
+          variant: 'destructive',
+          title: 'Review already exist!',
+          description:
+            'You have already created a review. You cannot have two reviews for one product.',
+        });
+        return;
+      }
       toast({
         variant: 'destructive',
         title: 'Error!',

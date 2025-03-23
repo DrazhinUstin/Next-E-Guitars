@@ -44,18 +44,48 @@ export async function createProductReview(
   }
 }
 
+export const sortValues = {
+  created_desc: 'Creation date (descending)',
+  created_asc: 'Creation date (ascending)',
+  rating_desc: 'Rating (descending)',
+  rating_asc: 'Rating (ascending)',
+} as const;
+
 export interface FetchProductReviewsOptions {
-  productId: string;
+  filters?: {
+    productId?: string;
+  };
+  sort?: keyof typeof sortValues;
   cursor?: reviews.Cursors['next'];
   limit?: number;
 }
 
 export async function fetchProductReviews(
   wixClient: WixClientType,
-  { productId, cursor, limit = 2 }: FetchProductReviewsOptions
+  { filters = {}, sort = 'created_desc', cursor, limit = 2 }: FetchProductReviewsOptions
 ) {
   try {
-    let query = wixClient.reviews.queryReviews().eq('entityId', productId).limit(limit);
+    let query = wixClient.reviews.queryReviews().limit(limit);
+
+    const { productId } = filters;
+    if (productId) {
+      query = query.eq('entityId', productId);
+    }
+
+    switch (sort) {
+      case 'created_asc':
+        query = query.ascending('_createdDate');
+        break;
+      case 'created_desc':
+        query = query.descending('_createdDate');
+        break;
+      case 'rating_asc':
+        query = query.ascending('content.rating');
+        break;
+      case 'rating_desc':
+        query = query.descending('content.rating');
+        break;
+    }
 
     if (cursor) {
       query = query.skipTo(cursor);
@@ -63,6 +93,16 @@ export async function fetchProductReviews(
 
     const response = await query.find();
     return response;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export async function countProductReviews(wixClient: WixClientType, productId: string) {
+  try {
+    const response = await wixClient.reviews.countReviews({ filter: { entityId: productId } });
+    return response.count;
   } catch (error) {
     console.error(error);
     throw error;

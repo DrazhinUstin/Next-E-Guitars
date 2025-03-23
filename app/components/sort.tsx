@@ -14,10 +14,12 @@ import { Label } from '@/app/components/ui/label';
 export default function Sort({
   selectedValue,
   values,
+  callback,
   className,
 }: {
   selectedValue: string;
   values: { [value: string]: string };
+  callback?: (value: string) => void;
   className?: string;
 }) {
   const pathname = usePathname();
@@ -25,6 +27,10 @@ export default function Sort({
   const router = useRouter();
 
   const handleValueChange = (value: string) => {
+    if (callback) {
+      callback(value);
+      return;
+    }
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set('sort', value);
     router.push(`${pathname}?${newSearchParams.toString()}`);
