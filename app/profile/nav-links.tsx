@@ -7,6 +7,7 @@ import { cn } from '@/app/lib/utils';
 const links = [
   { id: 1, name: 'Edit profile', href: '/profile' },
   { id: 2, name: 'Orders', href: '/profile/orders' },
+  { id: 3, name: 'Reviews', href: '/profile/reviews' },
 ];
 
 export default function NavLinks() {

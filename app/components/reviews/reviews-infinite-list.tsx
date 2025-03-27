@@ -7,12 +7,19 @@ import ReviewCard, { ReviewCardSkeleton } from '@/app/components/reviews/review-
 import { useState } from 'react';
 import { sortValues } from '@/app/lib/wix-api.reviews';
 import Sort from '@/app/components/sort';
+import type { members } from '@wix/members';
 
-export default function ReviewsInfiniteList({ product }: { product: products.Product }) {
+export default function ReviewsInfiniteList({
+  product,
+  author,
+}: {
+  product?: products.Product;
+  author?: members.Member;
+}) {
   const [sort, setSort] = useState<keyof typeof sortValues>('created_desc');
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useReviewsInfiniteQuery({
-    filters: { productId: product._id },
+    filters: { productId: product?._id, contactId: author?.contactId },
     sort,
   });
 

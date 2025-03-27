@@ -11,7 +11,7 @@ export default async function ProductReviews({ product }: { product: products.Pr
   const wixClient = await getWixServerClient();
   const [member, reviewsCount, { items: reviews }] = await Promise.all([
     fetchLoggedInMember(wixClient),
-    fetchReviewsCount(wixClient, product._id as string),
+    fetchReviewsCount(wixClient, { productId: product._id }),
     fetchReviews(wixClient, { filters: { productId: product._id } }),
   ]);
 

@@ -1,6 +1,8 @@
 import type { WixClientType } from '@/app/lib/wix-client.base';
 import { fetchLoggedInMember } from '@/app/lib/wix-api.members';
 import type { reviews } from '@wix/reviews';
+import type { members } from '@wix/members';
+import { products } from '@wix/stores';
 
 export interface CreateReviewValues {
   productId: string;
@@ -53,7 +55,8 @@ export const sortValues = {
 
 export interface FetchReviewsOptions {
   filters?: {
-    productId?: string;
+    productId?: products.Product['_id'];
+    contactId?: members.Member['contactId'];
   };
   sort?: keyof typeof sortValues;
   cursor?: reviews.Cursors['next'];
@@ -67,9 +70,12 @@ export async function fetchReviews(
   try {
     let query = wixClient.reviews.queryReviews().limit(limit);
 
-    const { productId } = filters;
+    const { productId, contactId } = filters;
     if (productId) {
       query = query.eq('entityId', productId);
+    }
+    if (contactId) {
+      query = query.eq('author.contactId', contactId);
     }
 
     switch (sort) {
@@ -99,9 +105,16 @@ export async function fetchReviews(
   }
 }
 
-export async function fetchReviewsCount(wixClient: WixClientType, productId: string) {
+export async function fetchReviewsCount(
+  wixClient: WixClientType,
+  filters?: Omit<Exclude<FetchReviewsOptions['filters'], undefined>, 'contactId'>
+) {
   try {
-    const response = await wixClient.reviews.countReviews({ filter: { entityId: productId } });
+    const response = await wixClient.reviews.countReviews({
+      filter: filters && {
+        ...(filters.productId && { entityId: filters.productId }),
+      },
+    });
     return response.count;
   } catch (error) {
     console.error(error);

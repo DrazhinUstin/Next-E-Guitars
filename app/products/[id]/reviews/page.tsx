@@ -5,10 +5,7 @@ import { ArrowLeftIcon } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
-import ReviewsInfiniteList, {
-  ReviewsInfiniteListSkeleton,
-} from '@/app/components/reviews/reviews-infinite-list';
+import ReviewsInfiniteList from '@/app/components/reviews/reviews-infinite-list';
 import { fetchReviewsCount } from '@/app/lib/wix-api.reviews';
 import CreateReviewButton from '@/app/components/reviews/create-review-button';
 import { fetchLoggedInMember } from '@/app/lib/wix-api.members';
@@ -51,7 +48,7 @@ export default async function Page({ params }: Props) {
   const wixClient = await getWixServerClient();
   const [product, reviewsCount, member] = await Promise.all([
     fetchProductById(wixClient, id),
-    fetchReviewsCount(wixClient, id),
+    fetchReviewsCount(wixClient, { productId: id }),
     fetchLoggedInMember(wixClient),
   ]);
 
@@ -82,9 +79,7 @@ export default async function Page({ params }: Props) {
         <CreateReviewButton product={product} loggedInMember={member} />
       </div>
       <h2 className="text-center text-2xl font-semibold">Reviews ({reviewsCount})</h2>
-      <Suspense fallback={<ReviewsInfiniteListSkeleton />}>
-        <ReviewsInfiniteList product={product} />
-      </Suspense>
+      <ReviewsInfiniteList product={product} />
     </main>
   );
 }
