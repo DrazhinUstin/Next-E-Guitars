@@ -46,6 +46,40 @@ export async function createReview(
   }
 }
 
+export async function editReview(
+  wixClient: WixClientType,
+  {
+    oldReview,
+    newContent,
+  }: { oldReview: reviews.Review; newContent: CreateReviewValues['content'] }
+) {
+  try {
+    const loggedInMember = await fetchLoggedInMember(wixClient);
+
+    if (!loggedInMember) {
+      throw Error('Unauthorized! Login to edit a review!');
+    }
+
+    if (loggedInMember.contactId !== oldReview.author?.contactId) {
+      throw Error('Unauthorized! Only author of the review can edit it!');
+    }
+
+    const editedReview = await wixClient.reviews.updateReview(oldReview._id as string, {
+      author: oldReview.author,
+      content: newContent,
+      entityId: oldReview.entityId,
+      namespace: oldReview.namespace,
+      reviewDate: oldReview.reviewDate && new Date(oldReview.reviewDate),
+      revision: oldReview.revision,
+    });
+
+    return editedReview;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 export const sortValues = {
   created_desc: 'Creation date (descending)',
   created_asc: 'Creation date (ascending)',

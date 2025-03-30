@@ -9,6 +9,7 @@ import {
   createReview,
   type CreateReviewValues,
   deleteReview,
+  editReview,
   fetchReviews,
   type FetchReviewsOptions,
 } from '@/app/lib/wix-api.reviews';
@@ -57,6 +58,43 @@ export const useCreateReviewMutation = () => {
         variant: 'destructive',
         title: 'Error!',
         description: 'Failed to create a review. Please try again.',
+      });
+    },
+  });
+};
+
+export const useEditReviewMutation = () => {
+  const { toast } = useToast();
+
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (arg: Parameters<typeof editReview>[1]) => editReview(getWixBrowserClient(), arg),
+    onSuccess: (editedReview) => {
+      queryClient.setQueriesData<InfiniteData<reviews.ReviewsQueryResult>>(
+        { queryKey: ['reviews'] },
+        (oldData) => {
+          if (!oldData) return;
+          return {
+            ...oldData,
+            pages: oldData.pages.map((page) => ({
+              ...page,
+              items: page.items.map((review) =>
+                review._id === editedReview._id ? editedReview : review
+              ),
+            })),
+          };
+        }
+      );
+      toast({
+        description: 'Your review was successfully edited!',
+      });
+    },
+    onError: () => {
+      toast({
+        variant: 'destructive',
+        title: 'Error!',
+        description: 'Failed to edit review. Please try again.',
       });
     },
   });

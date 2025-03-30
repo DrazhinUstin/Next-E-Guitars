@@ -6,11 +6,13 @@ import {
   DropdownMenuTrigger,
 } from '@/app/components/ui/dropdown-menu';
 import type { reviews } from '@wix/reviews';
-import { EllipsisIcon, Trash2Icon } from 'lucide-react';
+import { EllipsisIcon, FilePenLineIcon, Trash2Icon } from 'lucide-react';
 import { useState } from 'react';
 import DeleteReviewDialog from '@/app/components/reviews/delete-review-dialog';
+import EditReviewDialog from '@/app/components/reviews/edit-review-dialog';
 
 export default function ReviewCardControls({ review }: { review: reviews.Review }) {
+  const [isEditReviewDialogOpen, setIsEditReviewDialogOpen] = useState<boolean>(false);
   const [isDeleteReviewDialogOpen, setIsDeleteReviewDialogOpen] = useState<boolean>(false);
   return (
     <>
@@ -21,6 +23,9 @@ export default function ReviewCardControls({ review }: { review: reviews.Review 
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
+          <DropdownMenuItem onClick={() => setIsEditReviewDialogOpen(true)}>
+            <FilePenLineIcon className="text-primary" /> Edit
+          </DropdownMenuItem>
           <DropdownMenuItem
             className="text-destructive focus:text-destructive"
             onClick={() => setIsDeleteReviewDialogOpen(true)}
@@ -29,6 +34,11 @@ export default function ReviewCardControls({ review }: { review: reviews.Review 
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      <EditReviewDialog
+        review={review}
+        open={isEditReviewDialogOpen}
+        onOpenChange={setIsEditReviewDialogOpen}
+      />
       <DeleteReviewDialog
         review={review}
         open={isDeleteReviewDialogOpen}
