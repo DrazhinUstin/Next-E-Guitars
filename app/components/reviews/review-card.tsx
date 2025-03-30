@@ -3,16 +3,31 @@
 import StarsRatingInput from '@/app/components/stars-rating-input';
 import { Skeleton } from '@/app/components/ui/skeleton';
 import { cn, formatDate } from '@/app/lib/utils';
+import type { members } from '@wix/members';
 import type { reviews } from '@wix/reviews';
 import { ReplyIcon, StarIcon } from 'lucide-react';
 import { useState } from 'react';
+import ReviewCardModerationStatus from '@/app/components/reviews/review-card-moderation-status';
+import ReviewCardControls from '@/app/components/reviews/review-card-controls';
 
-export default function ReviewCard({ review }: { review: reviews.Review }) {
+export default function ReviewCard({
+  review,
+  loggedInMember,
+}: {
+  review: reviews.Review;
+  loggedInMember: members.Member | null;
+}) {
   const [isShowMoreEnabled, setIsShowMoreEnabled] = useState(false);
   const maxBodyLength = 200;
   const isBodyTooBig = (review.content?.body?.length ?? 0) > maxBodyLength;
   return (
     <article className="mx-auto w-full max-w-xl space-y-4 rounded-lg border bg-card p-4 text-card-foreground shadow-md">
+      {review.author?.contactId === loggedInMember?.contactId && (
+        <div className="flex items-center justify-between gap-x-1">
+          <ReviewCardModerationStatus review={review} />
+          <ReviewCardControls review={review} />
+        </div>
+      )}
       <h4 className="font-medium">{review.content?.title}</h4>
       <p className="text-sm text-muted-foreground">
         By {review.author?.authorName} on {formatDate(review._createdDate as Date)}

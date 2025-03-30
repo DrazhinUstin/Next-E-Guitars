@@ -16,7 +16,10 @@ export default async function Page() {
 
   return (
     <main>
-      <ReviewsInfiniteList author={loggedInMember} />
+      <ReviewsInfiniteList
+        filters={{ contactId: loggedInMember.contactId }}
+        loggedInMember={loggedInMember}
+      />
     </main>
   );
 }

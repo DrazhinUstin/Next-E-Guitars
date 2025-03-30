@@ -2,24 +2,23 @@
 
 import LoadingButton from '@/app/components/loading-button';
 import { useReviewsInfiniteQuery } from '@/app/hooks/reviews';
-import type { products } from '@wix/stores';
 import ReviewCard, { ReviewCardSkeleton } from '@/app/components/reviews/review-card';
 import { useState } from 'react';
-import { sortValues } from '@/app/lib/wix-api.reviews';
+import { type FetchReviewsOptions, sortValues } from '@/app/lib/wix-api.reviews';
 import Sort from '@/app/components/sort';
 import type { members } from '@wix/members';
 
 export default function ReviewsInfiniteList({
-  product,
-  author,
+  filters,
+  loggedInMember,
 }: {
-  product?: products.Product;
-  author?: members.Member;
+  filters?: FetchReviewsOptions['filters'];
+  loggedInMember: members.Member | null;
 }) {
   const [sort, setSort] = useState<keyof typeof sortValues>('created_desc');
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useReviewsInfiniteQuery({
-    filters: { productId: product?._id, contactId: author?.contactId },
+    filters,
     sort,
   });
 
@@ -41,7 +40,9 @@ export default function ReviewsInfiniteList({
           No reviews were found for this product...
         </p>
       )}
-      {reviews?.map((review) => <ReviewCard key={review._id} review={review} />)}
+      {reviews?.map((review) => (
+        <ReviewCard key={review._id} review={review} loggedInMember={loggedInMember} />
+      ))}
       {hasNextPage && (
         <div className="text-center">
           <LoadingButton

@@ -121,3 +121,23 @@ export async function fetchReviewsCount(
     throw error;
   }
 }
+
+export async function deleteReview(wixClient: WixClientType, review: reviews.Review) {
+  const loggedInMember = await fetchLoggedInMember(wixClient);
+
+  if (!loggedInMember) {
+    throw Error('Unauthorized!');
+  }
+
+  if (loggedInMember.contactId !== review.author?.contactId) {
+    throw Error('Unauthorized! Only author of the review can delete it.');
+  }
+
+  try {
+    const response = await wixClient.reviews.deleteReview(review._id as string);
+    return response.review;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}

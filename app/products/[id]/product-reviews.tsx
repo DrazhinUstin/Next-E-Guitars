@@ -29,7 +29,7 @@ export default async function ProductReviews({ product }: { product: products.Pr
     <div className="space-y-8">
       <h2 className="text-center text-2xl font-semibold">Recent reviews</h2>
       {reviews.map((review) => (
-        <ReviewCard key={review._id} review={review} />
+        <ReviewCard key={review._id} review={review} loggedInMember={member} />
       ))}
       <div className="flex items-center justify-center gap-x-4">
         <CreateReviewButton product={product} loggedInMember={member} />

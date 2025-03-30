@@ -79,7 +79,7 @@ export default async function Page({ params }: Props) {
         <CreateReviewButton product={product} loggedInMember={member} />
       </div>
       <h2 className="text-center text-2xl font-semibold">Reviews ({reviewsCount})</h2>
-      <ReviewsInfiniteList product={product} />
+      <ReviewsInfiniteList filters={{ productId: product._id }} loggedInMember={member} />
     </main>
   );
 }
