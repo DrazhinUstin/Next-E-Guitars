@@ -1,6 +1,7 @@
 import { useToast } from '@/app/hooks/use-toast';
 import {
   type InfiniteData,
+  type QueryKey,
   useInfiniteQuery,
   useMutation,
   useQueryClient,
@@ -16,12 +17,14 @@ import {
 import { getWixBrowserClient } from '@/app/lib/wix-client.browser';
 import type { reviews } from '@wix/reviews';
 
+const queryKey = ['reviews'] satisfies QueryKey;
+
 export const useReviewsInfiniteQuery = ({
   filters,
   sort,
 }: Pick<FetchReviewsOptions, 'filters' | 'sort'>) => {
   return useInfiniteQuery({
-    queryKey: ['reviews', filters, sort],
+    queryKey: [...queryKey, filters, sort],
     queryFn: ({ pageParam }) =>
       fetchReviews(getWixBrowserClient(), {
         filters,
@@ -36,9 +39,16 @@ export const useReviewsInfiniteQuery = ({
 export const useCreateReviewMutation = () => {
   const { toast } = useToast();
 
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: (values: CreateReviewValues) => createReview(getWixBrowserClient(), values),
-    onSuccess: () => {
+    onSuccess: (createdReview) => {
+      queryClient.invalidateQueries({
+        queryKey,
+        predicate: ({ queryKey }) =>
+          (queryKey[1] as FetchReviewsOptions['filters'])?.productId === createdReview.entityId,
+      });
       toast({
         title: 'Thank you for your review!',
         description: 'Your review will be visible after our team approves it.',
@@ -72,7 +82,7 @@ export const useEditReviewMutation = () => {
     mutationFn: (arg: Parameters<typeof editReview>[1]) => editReview(getWixBrowserClient(), arg),
     onSuccess: (editedReview) => {
       queryClient.setQueriesData<InfiniteData<reviews.ReviewsQueryResult>>(
-        { queryKey: ['reviews'] },
+        { queryKey },
         (oldData) => {
           if (!oldData) return;
           return {
@@ -109,7 +119,7 @@ export const useDeleteReviewMutation = () => {
     mutationFn: (review: reviews.Review) => deleteReview(getWixBrowserClient(), review),
     onSuccess: (deletedReview) => {
       queryClient.setQueriesData<InfiniteData<reviews.ReviewsQueryResult>>(
-        { queryKey: ['reviews'] },
+        { queryKey },
         (oldData) => {
           if (!oldData) return;
           return {

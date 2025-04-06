@@ -28,6 +28,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useEditReviewMutation } from '@/app/hooks/reviews';
+import { usePathname, useRouter } from 'next/navigation';
 
 const formSchema = z.object({
   title: z
@@ -63,6 +64,8 @@ export default function EditReviewDialog({
   onOpenChange: (open: boolean) => void;
 }) {
   const mutation = useEditReviewMutation();
+  const pathname = usePathname();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -76,7 +79,12 @@ export default function EditReviewDialog({
   function onSubmit(values: z.infer<typeof formSchema>) {
     mutation.mutate(
       { oldReview: review, newContent: values },
-      { onSuccess: () => onOpenChange(false) }
+      {
+        onSuccess: () => {
+          if (pathname === `/products/${review.entityId}`) router.refresh();
+          onOpenChange(false);
+        },
+      }
     );
   }
 

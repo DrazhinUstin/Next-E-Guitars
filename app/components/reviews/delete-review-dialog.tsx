@@ -13,6 +13,7 @@ import {
 } from '@/app/components/ui/dialog';
 import LoadingButton from '@/app/components/loading-button';
 import { useDeleteReviewMutation } from '@/app/hooks/reviews';
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function DeleteReviewDialog({
   review,
@@ -24,10 +25,15 @@ export default function DeleteReviewDialog({
   onOpenChange: (open: boolean) => void;
 }) {
   const mutation = useDeleteReviewMutation();
+  const pathname = usePathname();
+  const router = useRouter();
 
   const handleDelete = () => {
     mutation.mutate(review, {
-      onSuccess: () => onOpenChange(false),
+      onSuccess: () => {
+        if (pathname === `/products/${review.entityId}`) router.refresh();
+        onOpenChange(false);
+      },
     });
   };
 

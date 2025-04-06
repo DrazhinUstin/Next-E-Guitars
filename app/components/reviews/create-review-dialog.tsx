@@ -29,6 +29,7 @@ import LoadingButton from '@/app/components/loading-button';
 import StarsRatingInput from '@/app/components/stars-rating-input';
 import type { products } from '@wix/stores';
 import WixImage from '@/app/components/wix-image';
+import { usePathname, useRouter } from 'next/navigation';
 
 const formSchema = z.object({
   title: z
@@ -64,6 +65,8 @@ export default function CreateReviewDialog({
   onOpenChange: (open: boolean) => void;
 }) {
   const mutation = useCreateReviewMutation();
+  const pathname = usePathname();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -78,7 +81,10 @@ export default function CreateReviewDialog({
     mutation.mutate(
       { productId: product._id as string, content: values },
       {
-        onSuccess: () => onOpenChange(false),
+        onSuccess: () => {
+          if (pathname === `/products/${product._id}`) router.refresh();
+          onOpenChange(false);
+        },
       }
     );
   }
