@@ -28,11 +28,8 @@ export default function ReviewCard({
           <ReviewCardControls review={review} />
         </div>
       )}
-      <h4 className="font-medium">{review.content?.title}</h4>
-      <p className="text-sm text-muted-foreground">
-        By {review.author?.authorName} on {formatDate(review._createdDate as Date)}
-      </p>
       {review.content?.rating && <StarsRatingInput value={review.content.rating} />}
+      <h4 className="font-medium">{review.content?.title}</h4>
       <p
         className={cn(
           !isShowMoreEnabled &&
@@ -49,6 +46,9 @@ export default function ReviewCard({
             {isShowMoreEnabled ? 'Show less' : 'Show more'}
           </button>
         )}
+      </p>
+      <p className="text-end text-sm text-muted-foreground">
+        By {review.author?.authorName} on {formatDate(review._createdDate as Date)}
       </p>
       {review.reply && (
         <>

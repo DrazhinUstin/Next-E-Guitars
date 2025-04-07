@@ -37,6 +37,11 @@ export default function UpdateMemberForm({ member }: { member: members.Member })
     mutation.mutate(values);
   }
 
+  const wasAnyFormValueChanged = Object.entries(form.getValues()).some(
+    ([key, value]) =>
+      form.formState.defaultValues?.[key as keyof z.infer<typeof formSchema>] !== value
+  );
+
   return (
     <Form {...form}>
       <form
@@ -82,7 +87,12 @@ export default function UpdateMemberForm({ member }: { member: members.Member })
             </FormItem>
           )}
         />
-        <LoadingButton type="submit" className="w-full" loading={mutation.isPending}>
+        <LoadingButton
+          type="submit"
+          className="w-full"
+          loading={mutation.isPending}
+          disabled={!wasAnyFormValueChanged}
+        >
           Update profile
         </LoadingButton>
       </form>

@@ -11,7 +11,10 @@ export default async function Page() {
 
   return (
     <main>
-      <UpdateMemberForm member={loggedInMember} />
+      <UpdateMemberForm
+        key={(loggedInMember.contact?.firstName ?? '') + (loggedInMember.contact?.lastName ?? '')}
+        member={loggedInMember}
+      />
     </main>
   );
 }

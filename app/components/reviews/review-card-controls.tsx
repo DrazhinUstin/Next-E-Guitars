@@ -6,14 +6,17 @@ import {
   DropdownMenuTrigger,
 } from '@/app/components/ui/dropdown-menu';
 import type { reviews } from '@wix/reviews';
-import { EllipsisIcon, FilePenLineIcon, Trash2Icon } from 'lucide-react';
+import { EllipsisIcon, EyeIcon, FilePenLineIcon, Trash2Icon } from 'lucide-react';
 import { useState } from 'react';
 import DeleteReviewDialog from '@/app/components/reviews/delete-review-dialog';
 import EditReviewDialog from '@/app/components/reviews/edit-review-dialog';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 export default function ReviewCardControls({ review }: { review: reviews.Review }) {
   const [isEditReviewDialogOpen, setIsEditReviewDialogOpen] = useState<boolean>(false);
   const [isDeleteReviewDialogOpen, setIsDeleteReviewDialogOpen] = useState<boolean>(false);
+  const pathname = usePathname();
   return (
     <>
       <DropdownMenu>
@@ -23,6 +26,13 @@ export default function ReviewCardControls({ review }: { review: reviews.Review 
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
+          {pathname.includes('profile') && (
+            <DropdownMenuItem asChild>
+              <Link href={`/products/${review.entityId}`}>
+                <EyeIcon className="text-muted-foreground" /> Product
+              </Link>
+            </DropdownMenuItem>
+          )}
           <DropdownMenuItem onClick={() => setIsEditReviewDialogOpen(true)}>
             <FilePenLineIcon className="text-primary" /> Edit
           </DropdownMenuItem>
