@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import Products, { ProductsSkeleton } from '@/app/components/products';
 import Sort from '@/app/components/sort';
-import { sortValues } from '@/app/lib/wix-api';
+import { sortValues } from '@/app/lib/wix-api.products';
 import { getWixServerClient } from '@/app/lib/wix-client.server';
 import { fetchCollections } from '@/app/lib/wix-api.collections';
 import Filters from '@/app/products/filters';

@@ -1,4 +1,4 @@
-import { fetchProducts, type FetchProductsOptions } from '@/app/lib/wix-api';
+import { fetchProducts, type FetchProductsOptions } from '@/app/lib/wix-api.products';
 import { getWixServerClient } from '@/app/lib/wix-client.server';
 import ProductCard from '@/app/components/product-card';
 import { Skeleton } from '@/app/components/ui/skeleton';

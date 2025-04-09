@@ -1,5 +1,5 @@
 import WixImage from '@/app/components/wix-image';
-import { fetchProductById } from '@/app/lib/wix-api';
+import { fetchProductById } from '@/app/lib/wix-api.products';
 import { getWixServerClient } from '@/app/lib/wix-client.server';
 import { ArrowLeftIcon } from 'lucide-react';
 import type { Metadata } from 'next';

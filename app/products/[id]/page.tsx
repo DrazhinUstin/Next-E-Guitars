@@ -1,5 +1,5 @@
 import { getWixServerClient } from '@/app/lib/wix-client.server';
-import { fetchProductById } from '@/app/lib/wix-api';
+import { fetchProductById } from '@/app/lib/wix-api.products';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import ProductDetails from './product-details';
