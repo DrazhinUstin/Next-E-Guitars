@@ -4,7 +4,9 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import ProductDetails from './product-details';
 import { Suspense } from 'react';
-import RelatedProducts, { RelatedProductsSkeleton } from '@/app/components/related-products';
+import RelatedProducts, {
+  RelatedProductsSkeleton,
+} from '@/app/components/products/related-products';
 import ProductReviews, { ProductReviewsSkeleton } from './product-reviews';
 
 interface Props {

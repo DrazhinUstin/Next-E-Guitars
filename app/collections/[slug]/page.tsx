@@ -1,4 +1,6 @@
-import Products, { ProductsSkeleton } from '@/app/components/products';
+import PaginatedProducts, {
+  PaginatedProductsSkeleton,
+} from '@/app/components/products/paginated-products';
 import { fetchCollectionBySlug } from '@/app/lib/wix-api.collections';
 import { getWixServerClient } from '@/app/lib/wix-client.server';
 import { notFound } from 'next/navigation';
@@ -68,8 +70,8 @@ export default async function Page({ params, searchParams }: Props) {
       ) : (
         <h2 className="text-center text-2xl font-semibold">{collection.name}</h2>
       )}
-      <Suspense key={page} fallback={<ProductsSkeleton />}>
-        <Products
+      <Suspense key={page} fallback={<PaginatedProductsSkeleton />}>
+        <PaginatedProducts
           queryOptions={{
             filters: { collectionIds: collection._id ?? undefined },
             page: Number(page) || undefined,

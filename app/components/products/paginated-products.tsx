@@ -1,10 +1,14 @@
 import { fetchProducts, type FetchProductsOptions } from '@/app/lib/wix-api.products';
 import { getWixServerClient } from '@/app/lib/wix-client.server';
-import ProductCard from '@/app/components/product-card';
+import ProductCard from '@/app/components/products/product-card';
 import { Skeleton } from '@/app/components/ui/skeleton';
 import PaginationBar from '@/app/components/pagination-bar';
 
-export default async function Products({ queryOptions }: { queryOptions?: FetchProductsOptions }) {
+export default async function PaginatedProducts({
+  queryOptions,
+}: {
+  queryOptions?: FetchProductsOptions;
+}) {
   const wixClient = await getWixServerClient();
   const data = await fetchProducts(wixClient, queryOptions ?? {});
   const currentPage = (data.currentPage ?? 0) + 1;
@@ -24,7 +28,7 @@ export default async function Products({ queryOptions }: { queryOptions?: FetchP
   );
 }
 
-export function ProductsSkeleton({ length = 12 }: { length?: number }) {
+export function PaginatedProductsSkeleton({ length = 12 }: { length?: number }) {
   return (
     <div className="grid grid-cols-[repeat(auto-fill,_minmax(280px,_1fr))] gap-8">
       {Array.from({ length }).map((_, index) => (

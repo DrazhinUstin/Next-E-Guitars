@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-import Products, { ProductsSkeleton } from '@/app/components/products';
+import PaginatedProducts, {
+  PaginatedProductsSkeleton,
+} from '@/app/components/products/paginated-products';
 import Sort from '@/app/components/sort';
 import { sortValues } from '@/app/lib/wix-api.products';
 import { getWixServerClient } from '@/app/lib/wix-client.server';
@@ -43,9 +45,9 @@ export default async function Page({ searchParams }: Props) {
             <Sort selectedValue={sort ?? Object.keys(sortValues)[0]} values={sortValues} />
             <Suspense
               key={`${query}${collectionIds}${minPrice}${maxPrice}${sort}${page}`}
-              fallback={<ProductsSkeleton />}
+              fallback={<PaginatedProductsSkeleton />}
             >
-              <Products
+              <PaginatedProducts
                 queryOptions={{
                   filters: {
                     name: query,

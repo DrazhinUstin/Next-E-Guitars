@@ -1,6 +1,8 @@
 import { fetchRelatedProducts } from '@/app/lib/wix-api.recommendations';
 import { getWixServerClient } from '@/app/lib/wix-client.server';
-import ProductsCarousel, { ProductsCarouselSkeleton } from '@/app/components/products-carousel';
+import ProductsCarousel, {
+  ProductsCarouselSkeleton,
+} from '@/app/components/products/products-carousel';
 
 export default async function RelatedProducts({ productId }: { productId: string }) {
   const wixClient = await getWixServerClient();

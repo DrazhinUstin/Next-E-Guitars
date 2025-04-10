@@ -6,7 +6,7 @@ import {
   CarouselPrevious,
 } from '@/app/components/ui/carousel';
 import { products } from '@wix/stores';
-import ProductCard from '@/app/components/product-card';
+import ProductCard from '@/app/components/products/product-card';
 import { Skeleton } from '@/app/components/ui/skeleton';
 
 export default function ProductsCarousel({ products }: { products: products.Product[] }) {

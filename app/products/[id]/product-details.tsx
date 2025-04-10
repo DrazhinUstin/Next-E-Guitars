@@ -16,8 +16,8 @@ import {
   AccordionTrigger,
 } from '@/app/components/ui/accordion';
 import { findProductVariant } from '@/app/lib/utils';
-import BackInStockNotificationButton from '@/app/components/back-in-stock-notification-button';
-import ProductCheckoutButton from '@/app/components/product-checkout-button';
+import BackInStockNotificationButton from '@/app/components/products/back-in-stock-notification-button';
+import ProductCheckoutButton from '@/app/components/products/product-checkout-button';
 
 export default function ProductDetails({ product }: { product: products.Product }) {
   const {

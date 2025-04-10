@@ -1,7 +1,9 @@
 import { getWixServerClient } from '@/app/lib/wix-client.server';
 import { Suspense } from 'react';
-import Hero from './hero';
-import ProductsCarousel, { ProductsCarouselSkeleton } from './components/products-carousel';
+import Hero from '@/app/hero';
+import ProductsCarousel, {
+  ProductsCarouselSkeleton,
+} from '@/app/components/products/products-carousel';
 
 export default function Home() {
   return (
