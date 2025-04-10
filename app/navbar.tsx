@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import CartButton from '@/app/components/cart-button';
+import CartButton from '@/app/components/cart/cart-button';
 import { fetchCart } from '@/app/lib/wix-api.cart';
 import { getWixServerClient } from '@/app/lib/wix-client.server';
 import { fetchLoggedInMember } from '@/app/lib/wix-api.members';

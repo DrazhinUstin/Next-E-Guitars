@@ -8,7 +8,7 @@ import { useState } from 'react';
 import Badge from '@/app/components/badge';
 import { Label } from '@/app/components/ui/label';
 import { Input } from '@/app/components/ui/input';
-import AddToCartButton from '@/app/components/add-to-cart-button';
+import AddToCartButton from '@/app/components/cart/add-to-cart-button';
 import {
   Accordion,
   AccordionContent,

@@ -5,7 +5,7 @@ import { ShoppingCartIcon } from 'lucide-react';
 import { useCartQuery } from '@/app/hooks/cart';
 import type { cart } from '@wix/ecom';
 import { useState } from 'react';
-import CartSheet from '@/app/components/cart-sheet';
+import CartSheet from '@/app/components/cart/cart-sheet';
 
 export default function CartButton({ initialData }: { initialData: cart.Cart | null }) {
   const [isSheetOpen, setIsSheetOpen] = useState<boolean>(false);

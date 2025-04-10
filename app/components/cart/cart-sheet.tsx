@@ -17,7 +17,7 @@ import {
 import WixImage from '@/app/components/wix-image';
 import { MinusIcon, PlusIcon, XIcon } from 'lucide-react';
 import Link from 'next/link';
-import CartCheckoutButton from '@/app/components/cart-checkout-button';
+import CartCheckoutButton from '@/app/components/cart/cart-checkout-button';
 
 export default function CartSheet({
   initialCartData,
