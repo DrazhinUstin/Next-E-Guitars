@@ -29,6 +29,9 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+    --navbar-height: 5rem;
+    --footer-height: 10rem;
+    --min-page-height: calc(100vh - var(--navbar-height) - var(--footer-height));
     [data-rmiz-modal-overlay='visible'] {
       background-color: hsl(var(--background));
     }

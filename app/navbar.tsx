@@ -17,8 +17,8 @@ export default async function Navbar() {
     fetchCollections(wixServerClient),
   ]);
   return (
-    <header className="relative z-50 py-4 shadow-lg">
-      <div className="mx-auto flex w-[90vw] max-w-7xl items-center justify-between gap-2">
+    <header className="relative z-50 shadow-lg">
+      <div className="h-navbar mx-auto flex w-[90vw] max-w-7xl items-center justify-between gap-2">
         <MobileMenuButton collections={collections} />
         <Link href="/">
           <h2 className="text-2xl font-semibold">E-guitars</h2>

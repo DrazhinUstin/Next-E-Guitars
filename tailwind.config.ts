@@ -51,6 +51,13 @@ export default {
           '5': 'hsl(var(--chart-5))',
         },
       },
+      height: {
+        navbar: 'var(--navbar-height)',
+        footer: 'var(--footer-height)',
+      },
+      minHeight: {
+        page: 'var(--min-page-height)',
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',

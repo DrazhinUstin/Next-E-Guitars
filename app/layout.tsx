@@ -6,6 +6,7 @@ import Navbar from './navbar';
 import ReactQueryProvider from './react-query-provider';
 import { Toaster } from '@/app/components/ui/toaster';
 import { ThemeProvider } from '@/app/theme-provider';
+import Footer from './footer';
 
 export const metadata: Metadata = {
   title: {
@@ -26,7 +27,8 @@ export default function RootLayout({
         <ReactQueryProvider>
           <ThemeProvider>
             <Navbar />
-            <div className="mx-auto w-[90vw] max-w-7xl py-8">{children}</div>
+            <div className="min-h-page mx-auto w-[90vw] max-w-7xl py-8">{children}</div>
+            <Footer />
             <Toaster />
           </ThemeProvider>
         </ReactQueryProvider>
