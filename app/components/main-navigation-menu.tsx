@@ -30,7 +30,11 @@ export default function MainNavigationMenu({
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Collections</NavigationMenuTrigger>
+          <Link href="/collections" legacyBehavior passHref>
+            <NavigationMenuLink>
+              <NavigationMenuTrigger>Collections</NavigationMenuTrigger>
+            </NavigationMenuLink>
+          </Link>
           <NavigationMenuContent>
             <ul className="grid w-max grid-cols-2 gap-2 p-2">
               {collections.map(({ _id, slug, name, media }) => (
