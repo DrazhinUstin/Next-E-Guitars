@@ -56,7 +56,10 @@ export default {
         footer: 'var(--footer-height)',
       },
       minHeight: {
-        page: 'var(--min-page-height)',
+        page: 'var(--page-min-height)',
+      },
+      padding: {
+        page: 'var(--page-padding)',
       },
       borderRadius: {
         lg: 'var(--radius)',

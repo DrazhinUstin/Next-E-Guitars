@@ -27,7 +27,7 @@ export default function RootLayout({
         <ReactQueryProvider>
           <ThemeProvider>
             <Navbar />
-            <div className="min-h-page mx-auto w-[90vw] max-w-7xl py-8">{children}</div>
+            <div className="py-page mx-auto min-h-page w-[90vw] max-w-7xl">{children}</div>
             <Footer />
             <Toaster />
           </ThemeProvider>

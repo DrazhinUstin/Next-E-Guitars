@@ -31,7 +31,8 @@
     --chart-5: 27 87% 67%;
     --navbar-height: 5rem;
     --footer-height: 10rem;
-    --min-page-height: calc(100vh - var(--navbar-height) - var(--footer-height));
+    --page-min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
+    --page-padding: 2rem;
     [data-rmiz-modal-overlay='visible'] {
       background-color: hsl(var(--background));
     }
