@@ -20,7 +20,7 @@ export default function Hero() {
         </div>
       </div>
       <div className="absolute inset-0 -z-10 sm:relative">
-        <Image src={heroImage} alt="hero image" className="h-full w-full object-cover" />
+        <Image src={heroImage} alt="hero image" className="h-full w-full object-cover" priority />
         <div className="absolute inset-0 bg-black/50 sm:bg-gradient-to-r sm:from-secondary sm:via-transparent sm:to-transparent" />
       </div>
     </section>

@@ -33,7 +33,7 @@ export default function Sort({
     }
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set('sort', value);
-    router.push(`${pathname}?${newSearchParams.toString()}`);
+    router.push(`${pathname}?${newSearchParams.toString()}`, { scroll: false });
   };
 
   return (

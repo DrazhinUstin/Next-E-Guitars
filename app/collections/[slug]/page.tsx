@@ -1,3 +1,5 @@
+import Sort from '@/app/components/sort';
+import { sortValues } from '@/app/lib/wix-api.products';
 import PaginatedProducts, {
   PaginatedProductsSkeleton,
 } from '@/app/components/products/paginated-products';
@@ -10,7 +12,7 @@ import type { Metadata } from 'next';
 
 interface Props {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ page?: string }>;
+  searchParams: Promise<{ sort?: string; page?: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -41,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function Page({ params, searchParams }: Props) {
   const slug = (await params).slug;
-  const page = (await searchParams).page;
+  const { sort, page } = await searchParams;
   const wixClient = await getWixServerClient();
   const collection = await fetchCollectionBySlug(wixClient, slug);
 
@@ -70,10 +72,12 @@ export default async function Page({ params, searchParams }: Props) {
       ) : (
         <h2 className="text-center text-2xl font-semibold">{collection.name}</h2>
       )}
-      <Suspense key={page} fallback={<PaginatedProductsSkeleton />}>
+      <Sort selectedValue={sort ?? Object.keys(sortValues)[0]} values={sortValues} />
+      <Suspense key={`${sort}${page}`} fallback={<PaginatedProductsSkeleton />}>
         <PaginatedProducts
           queryOptions={{
             filters: { collectionIds: collection._id ?? undefined },
+            sort: sort as keyof typeof sortValues,
             page: Number(page) || undefined,
           }}
         />
